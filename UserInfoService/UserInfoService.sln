@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfoService", "UserInfoService\UserInfoService.csproj", "{9DBB7128-D188-4643-BD76-C236FBD95D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo.Console", "UserInfo.Console\UserInfo.Console.csproj", "{9DBB7128-D188-4643-BD76-C236FBD95D8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfoService.UnitTests", "UserInfoService.UnitTests\UserInfoService.UnitTests.csproj", "{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfo.Service", "UserInfo.Service\UserInfo.Service.csproj", "{F38B7588-75F0-4874-964A-8DCF290A1B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38B7588-75F0-4874-964A-8DCF290A1B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38B7588-75F0-4874-964A-8DCF290A1B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38B7588-75F0-4874-964A-8DCF290A1B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38B7588-75F0-4874-964A-8DCF290A1B1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

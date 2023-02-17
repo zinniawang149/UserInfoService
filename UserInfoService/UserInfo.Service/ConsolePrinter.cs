@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserInfoService.Models;
 
 namespace UserInfoService.Services
 {
-    public interface IUserInfoService
+    public class ConsolePrinter : IPrinter
     {
-        Task<List<User>> GetUsersAsync(int id);
-        Task<List<User>> GetUsersAsync();
+        public void Print(string InfoToPrint) {
+            Console.WriteLine(InfoToPrint);
+        }
     }
 }
