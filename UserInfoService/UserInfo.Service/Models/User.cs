@@ -24,6 +24,7 @@ namespace UserInfoService.Models
     public enum Gender
     {
         M,
-        F
+        F,
+        Unknown
     }
 }

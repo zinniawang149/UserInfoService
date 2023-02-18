@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.CircuitBreaker;
 using System.Reflection;
 using System.Text;
 using UserInfoService.Models;
@@ -10,34 +14,73 @@ namespace UserInfoService
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            var logger = LoggerFactory.Create(config =>
+            {
+                config.AddConsole();
+            }).CreateLogger("Main");
+            logger.LogInformation($"------Service Start------");
             try
             {
-                //setup DI
-                var serviceProvider = new ServiceCollection()
-                    .AddLogging()
-                    .AddHttpClient()
-                    .AddTransient<IUserDataClient, UserHttpClient>()
-                    .AddTransient<IUserPrinterSvc, UserPrinterSvc>()
-                    .AddSingleton<IPrinter, ConsolePrinter>()
-                    .BuildServiceProvider();
 
+                var host = CreateHostBuilder(args).Build();
+                
                 //Get users
-                var userDataClient = serviceProvider.GetService<IUserDataClient>();
-                var users = userDataClient.GetUserInfoAsync().Result.Result;
+                var userDataClient = host.Services.GetService<IUserDataClient>();
+
+                var response = await userDataClient.GetUserInfoAsync();
+                if (!response.IsSuccess)
+                {
+                    throw new Exception($"{response.Error.Code} { response.Error.Message}");
+                }
+
+                var users = response.Result;
 
                 //Print user info
-                var userPrinterSvc = serviceProvider.GetService<IUserPrinterSvc>();
+                var userPrinterSvc = host.Services.GetService<IUserPrinterSvc>();
                 userPrinterSvc.PrintUserFullNamesById(users, 42);
                 userPrinterSvc.PrintUsersfirstNameByAge(users, 23);
                 userPrinterSvc.PrintUsersGenderByAge(users);
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); // Only do this because it's a console test app, we can write it in logs file in real world
+                logger.LogError($"Errors:{ex.Message}");
             }
-            
+            finally
+            {
+                logger.LogInformation($"------Service End------");
+            }
         }
+
+        static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+        .ConfigureServices((_, services) =>
+        {
+            services.AddHttpClient("Default")
+                .AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.WaitAndRetryAsync(3, retryAttempt =>
+                    {
+                        Random jitterer = new Random();
+                        return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000));
+                    }
+                    , onRetryAsync: async (outcome, timespan, retryCount, context) =>
+                    {
+                        Console.WriteLine($"Retrying...{retryCount}");
+                    }))
+                .AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
+                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(5));
+
+            services.AddTransient<IUserDataClient, UserHttpClient>()
+                .AddTransient<IUserPrinterSvc, UserPrinterSvc>()
+                .AddSingleton<IPrinter, ConsolePrinter>();
+        })
+        .ConfigureLogging((_, logging) =>
+        {
+            logging.ClearProviders();
+            logging.AddSimpleConsole(options => options.IncludeScopes = true);
+        });
     }
 }
