@@ -49,15 +49,20 @@ namespace UserInfoService.Services.Clients
             List<User> response;
             try
             {
-                response = JsonConvert.DeserializeObject<List<User>>(responseString, new TolerantEnumConverter() );
+                response = JsonConvert.DeserializeObject<List<User>>(responseString, new TolerantEnumConverter());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var usersList = new List<User>();
-                response = usersList;
+                return new ServiceResult<List<User>>
+                {
+                    Error = new Error
+                    {
+                        Code = "E001: DeserializeFailed",
+                        Message = ex.Message
+                    }
+                };
             }
             
-            //var response = JsonSerializer.Deserialize<List<User>>(responseString, options);
             return new ServiceResult<List<User>>
             {
                 Result = response

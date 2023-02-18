@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace UserInfo.Service.Helper
 {
     public class TolerantEnumConverter : JsonConverter
     {
+
         public override bool CanConvert(Type objectType)
         {
             Type type = IsNullableType(objectType) ? Nullable.GetUnderlyingType(objectType) : objectType;

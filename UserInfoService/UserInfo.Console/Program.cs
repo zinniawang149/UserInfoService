@@ -20,10 +20,9 @@ namespace UserInfoService
             {
                 config.AddConsole();
             }).CreateLogger("Main");
-            logger.LogInformation($"------Service Start------");
             try
             {
-
+                logger.LogInformation($"------Service Start------");
                 var host = CreateHostBuilder(args).Build();
                 
                 //Get users

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo.Console", "UserInfo.Console\UserInfo.Console.csproj", "{9DBB7128-D188-4643-BD76-C236FBD95D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfoService.UnitTests", "UserInfoService.UnitTests\UserInfoService.UnitTests.csproj", "{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo.Service.UnitTests", "UserInfoService.UnitTests\UserInfo.Service.UnitTests.csproj", "{0DFC6608-ACD3-4672-9AF0-8D01B7FB8893}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInfo.Service", "UserInfo.Service\UserInfo.Service.csproj", "{F38B7588-75F0-4874-964A-8DCF290A1B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInfo.Service", "UserInfo.Service\UserInfo.Service.csproj", "{F38B7588-75F0-4874-964A-8DCF290A1B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
