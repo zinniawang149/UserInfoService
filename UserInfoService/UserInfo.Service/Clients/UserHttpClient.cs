@@ -53,6 +53,7 @@ namespace UserInfoService.Services.Clients
             }
             catch (Exception ex)
             {
+                
                 return new ServiceResult<List<User>>
                 {
                     Error = new Error

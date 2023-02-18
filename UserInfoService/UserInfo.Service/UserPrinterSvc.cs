@@ -17,37 +17,63 @@ namespace UserInfoService.Services
             _printer = printer;
         }
 
-        public void PrintUserFullNamesById(List<User> users, int id)
+        public void PrintUsersFullNames(List<User> users, Func<User, bool> predicate)
         {
-            var userHasId_42 = users.Where(u => u.Id == 42);
-            foreach (var user in userHasId_42)
-            {
-                _printer.Print($"{user.First} {user.Last}");
-            }
-        }
-
-        public void PrintUsersfirstNameByAge(List<User> users, int age) {
+            var usersCollection = users.Where(predicate).Select(u=> $"{u.First} {u.Last}");
+            _printer.PrintByDelimiter(usersCollection, '\n');
             
-            var userIsAge_23 = users.Where(u => u.Age == 23);
-
-            var stringBuilder = new StringBuilder();
-            foreach (var user in userIsAge_23)
-            {
-                stringBuilder.Append($"{user.First},");
-            }
-            if (stringBuilder.Length > 0) stringBuilder.Remove(stringBuilder.Length - 1, 1); //Remove the last comma
-            _printer.Print(stringBuilder.ToString());
+        }
+        public void PrintUsersFirstNames(List<User> users, Func<User, bool> predicate) {
+            
+            var usersCollection = users.Where(predicate).Select(u=>u.First);
+            _printer.PrintByDelimiter(usersCollection, ',');
         }
 
-        public void PrintUsersGenderByAge(List<User> users)
+        public void PrintUsersStats(List<User> users)
         {
-            var usersGroupByAge = users.OrderBy(u => u.Age).ToLookup(u => u.Age);
-            foreach (var userGroup in usersGroupByAge)
+            var ageGenderTable = new Dictionary<int, int[]>();
+            foreach (var user in users)
             {
-                var usersByGender = userGroup.ToLookup(u => u.Gender);
-                _printer.Print($"Age:{userGroup.Key} Female:{usersByGender[Gender.F].Count()} Male: {usersByGender[Gender.M].Count()}");
+                if (ageGenderTable.ContainsKey(user.Age))
+                {
+                    var genderArray = ageGenderTable[user.Age];
+                    switch (user.Gender)
+                    {
+                        case Gender.M:
+                            genderArray[1] = genderArray[1]++;
+                            break;
+                        case Gender.F:
+                            genderArray[0] = genderArray[0]++;
+                            break;
+                        case Gender.Unknown:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else {              
+                    //                           index 0: Female, index 1: Male
+                    var genderArray = new int[] { 0, 0 };
+                    switch (user.Gender)
+                    {
+                        case Gender.M:
+                            genderArray[1] = 1;
+                            ageGenderTable.Add(user.Age, genderArray);
+                            break;
+                        case Gender.F:
+                            genderArray[0] = 1;
+                            ageGenderTable.Add(user.Age, genderArray);
+                            break;
+                        case Gender.Unknown:
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
-
+            var usersCollection = ageGenderTable.OrderBy(t => t.Key)
+                .Select(t=> $"Age:{t.Key} Female:{t.Value[0]} Male:{t.Value[1]}");
+            _printer.PrintByDelimiter(usersCollection, '\n');
         }
 
     }

@@ -10,9 +10,9 @@ namespace UserInfoService.Services
 {
     public interface IUserPrinterSvc
     {
-        public void PrintUserFullNamesById(List<User> users, int id);
-        public void PrintUsersfirstNameByAge(List<User> users, int age);
-        public void PrintUsersGenderByAge(List<User> users);
+        public void PrintUsersFullNames(List<User> users, Func<User, bool> predicate);
+        public void PrintUsersFirstNames(List<User> users, Func<User, bool> predicate);
+        public void PrintUsersStats(List<User> users);
         
     }
 }

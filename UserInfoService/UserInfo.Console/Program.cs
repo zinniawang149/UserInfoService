@@ -38,9 +38,9 @@ namespace UserInfoService
 
                 //Print user info
                 var userPrinterSvc = host.Services.GetService<IUserPrinterSvc>();
-                userPrinterSvc.PrintUserFullNamesById(users, 42);
-                userPrinterSvc.PrintUsersfirstNameByAge(users, 23);
-                userPrinterSvc.PrintUsersGenderByAge(users);
+                userPrinterSvc.PrintUsersFullNames(users, u => u.Id == 31);
+                userPrinterSvc.PrintUsersFirstNames(users, u => u.Age == 23);
+                userPrinterSvc.PrintUsersStats(users);
 
             }
             catch (Exception ex)

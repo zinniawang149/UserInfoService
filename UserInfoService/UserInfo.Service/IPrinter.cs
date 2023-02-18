@@ -8,6 +8,6 @@ namespace UserInfoService.Services
 {
     public interface IPrinter
     {
-        void Print(string InfoToPrint);
+        void PrintByDelimiter(IEnumerable<string> obj, char delimiter);
     }
 }
