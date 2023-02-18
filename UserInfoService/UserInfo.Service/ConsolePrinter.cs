@@ -8,9 +8,6 @@ namespace UserInfoService.Services
 {
     public class ConsolePrinter : IPrinter
     {
-        public void Print(string InfoToPrint) {
-            Console.WriteLine(InfoToPrint);
-        }
 
         public void PrintByDelimiter(IEnumerable<string> obj, char delimiter)
         {
