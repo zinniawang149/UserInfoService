@@ -1,13 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Net;
 using UserInfo.Service.Helper;
 using UserInfoService.Models;
 
@@ -43,17 +34,11 @@ namespace UserInfoService.Services.Clients
             {
                 responseString = await result.Content.ReadAsStringAsync();
             }
-
-
-            //var responseString = "[{ \"id\": 53, \"first\": \"Bill\", \"last\": \"Bryson\", age:\"23\", \"gender\":\"Y\" },\r\n{ \"id\": 62, \"first\": \"John\", \"last\": \"Travolta\", \"age\":54, \"gender\":\"M\" },{ \"id\": 41, \"first\": \"Frank\", \"last\": \"Zappa\", \"age\":23, \"gender\":\"M\" },{ \"id\": 31, \"first\": \"Jill\", \"last\": \"Scott\", \"age\":66, \"gender\":\"M\" },{ \"id\": 31, \"first\": \"Anna\", \"last\": \"Meredith\", \"age\":66, \"gender\":\"F\" },{ \"id\": 31, \"first\": \"Janet\", \"last\": \"Jackson\", \"age\":66, \"gender\":\"F\" },]";
-            //var responseString = "[{ \"id\": 53, \"first\": \"Bill\", \"last\": \"Bryson\", age:\"23\", \"gender\":\"Y\" },\r\n{ \"id\": 62, \"first\": \"John\", \"last\": \"Travolta\", \"age\":54, \"gender\":\"M\" }d\": 41, \"first\": \"Frank\", \"last\": \"Zappa\", \"age\":23, \"gender\":\"M\" },{ \"id\": 31, \"first\": \"Jill\", \"last\": \"Scott\", \"age\":66, \"gender\":\"M\" },{ \"id\": 31, \"first\": \"Anna\", \"last\": \"Meredith\", \"age\":66, \"gender\":\"F\" },{ \"id\": 31, \"first\": \"Janet\", \"last\": \"Jackson\", \"age\":66, \"gender\":\"F\" },]";
-
-
-            var usersCollection = TolerantJsonConvert.DeserializeCollectionObject<User>(responseString, new TolerantEnumConverter()).ToList();
+            var usersCollection = TolerantJsonConvert.DeserializeCollectionObject<User>(responseString, new TolerantEnumConverter());
             
             return new ServiceResult<List<User>>
             {
-                Result = usersCollection
+                Result = usersCollection == null? new List<User>() : usersCollection.ToList(),
             };
         }
     }

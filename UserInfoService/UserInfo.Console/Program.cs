@@ -41,7 +41,7 @@ namespace UserInfoService
                 userPrinterSvc.PrintUsersFullNames(users, u => u.Id == 31);
                 userPrinterSvc.PrintUsersFirstNames(users, u => u.Age == 23);
                 userPrinterSvc.PrintUsersStats(users);
-
+                
             }
             catch (Exception ex)
             {

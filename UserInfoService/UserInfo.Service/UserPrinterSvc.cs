@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserInfoService.Models;
-using UserInfoService.Services.Clients;
+﻿using UserInfoService.Models;
 
 namespace UserInfoService.Services
 {
@@ -40,10 +34,10 @@ namespace UserInfoService.Services
                     switch (user.Gender)
                     {
                         case Gender.M:
-                            genderArray[1] = genderArray[1]++;
+                            genderArray[1] = genderArray[1]+1;
                             break;
                         case Gender.F:
-                            genderArray[0] = genderArray[0]++;
+                            genderArray[0] = genderArray[0]+1;
                             break;
                         case Gender.Unknown:
                             break;
