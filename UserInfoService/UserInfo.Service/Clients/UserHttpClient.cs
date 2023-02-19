@@ -12,7 +12,7 @@ namespace UserInfoService.Services.Clients
         public UserHttpClient(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("Default");
-            _httpClient.BaseAddress = new Uri(Environment.GetEnvironmentVariable("UserInfoUri")!);
+            _httpClient.BaseAddress = new Uri(Environment.GetEnvironmentVariable("USER_SOURCE_URI")!);
         }
         public async Task<ServiceResult<List<User>>> GetUserInfoAsync()
         {

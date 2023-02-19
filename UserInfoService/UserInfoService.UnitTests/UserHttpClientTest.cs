@@ -11,7 +11,7 @@ namespace UserInfo.Service.UnitTests
     {
         public UserHttpClientTest()
         {
-            Environment.SetEnvironmentVariable("UserInfoUri","https://mock.com");
+            Environment.SetEnvironmentVariable("USER_SOURCE_URI", "https://mock.com");
         }
 
         [Fact(DisplayName = "Get valid status code and content from user endpoint, the GetUserInfoAsync method should return correct userList")]
