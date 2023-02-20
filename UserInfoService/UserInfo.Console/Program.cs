@@ -28,17 +28,17 @@ namespace UserInfoService
                 //Get users
                 var userDataClient = host.Services.GetService<IUserDataClient>();
 
-                var response = await userDataClient.GetUserInfoAsync();
+                var response = await userDataClient!.GetUserInfoAsync();
                 if (!response.IsSuccess)
                 {
-                    throw new Exception($"{response.Error.Code} { response.Error.Message}");
+                    throw new Exception($"{response.Error!.Code} { response.Error.Message}");
                 }
 
-                var users = response.Result;
+                var users = response.Result!;
 
                 //Print user info
                 var userPrinterSvc = host.Services.GetService<IUserPrinterSvc>();
-                userPrinterSvc.PrintUsersFullNames(users, u => u.Id == 42);
+                userPrinterSvc!.PrintUsersFullNames(users, u => u.Id == 42);
                 userPrinterSvc.PrintUsersFirstNames(users, u => u.Age == 23);
                 userPrinterSvc.PrintUsersStats(users);
                 
@@ -64,7 +64,7 @@ namespace UserInfoService
                         Random jitterer = new Random();
                         return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000));
                     }
-                    , onRetryAsync: async (outcome, timespan, retryCount, context) =>
+                    , onRetry: (outcome, timespan, retryCount, context) =>
                     {
                         Console.WriteLine($"Retrying...{retryCount}");
                     }))

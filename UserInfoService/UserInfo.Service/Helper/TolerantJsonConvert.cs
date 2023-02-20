@@ -22,8 +22,8 @@ namespace UserInfo.Service.Helper
                 {
                     try
                     {
-                        var obj = JsonConvert.DeserializeObject<T>(item.ToString(), converters);
-                        collection.Add(obj);
+                        var obj = JsonConvert.DeserializeObject<T>(item.ToString()!, converters);
+                        if (obj != null) collection.Add(obj);
                     }
                     catch (Exception) { }
                 }

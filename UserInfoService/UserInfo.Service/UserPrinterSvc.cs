@@ -19,7 +19,7 @@ namespace UserInfoService.Services
         }
         public void PrintUsersFirstNames(List<User> users, Func<User, bool> predicate) {
             
-            var usersCollection = users.Where(predicate).Select(u=>u.First);
+            var usersCollection = users.Where(predicate).Select(u=>$"{u.First}");
             _printer.PrintByDelimiter(usersCollection, ',');
         }
 

@@ -33,7 +33,7 @@ namespace UserInfo.Service.UnitTests
             };
 
             //Act
-            var objList = TolerantJsonConvert.DeserializeCollectionObject<TestObject>(inputJsonString).ToList();
+            var objList = TolerantJsonConvert.DeserializeCollectionObject<TestObject>(inputJsonString)!.ToList();
 
             //Assert
             Assert.Equal(expectObjList, objList);
@@ -61,7 +61,7 @@ namespace UserInfo.Service.UnitTests
                 }
             };
             //Act
-            var objList = TolerantJsonConvert.DeserializeCollectionObject<TestObject>(inputJsonString, tolerantEnumConverter).ToList();
+            var objList = TolerantJsonConvert.DeserializeCollectionObject<TestObject>(inputJsonString, tolerantEnumConverter)!.ToList();
             //Assert
             Assert.Equal(expectObjList, objList);
         }
@@ -78,7 +78,11 @@ namespace UserInfo.Service.UnitTests
                 if (other == null)
                     return false;
 
-                return Id.Equals(other.Id) && Name.Equals(other.Name) && Gender.Equals(other.Gender) && Type.Equals(other.Type);
+                var result = Id.Equals(other.Id) && Gender.Equals(other.Gender) && Type.Equals(other.Type);
+                if (Name != null) { 
+                    result = result && Name.Equals(other.Name); 
+                }
+                return result;
             }
         }
 

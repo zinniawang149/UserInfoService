@@ -48,7 +48,7 @@ namespace UserInfo.Service.UnitTests
 
             // Assert
             Assert.True(result.IsSuccess);
-            Assert.Equal(expectUser.Count(), result.Result.Count());
+            Assert.Equal(expectUser.Count(), result.Result!.Count());
             Assert.Equal(JsonConvert.SerializeObject(expectUser), JsonConvert.SerializeObject(result.Result));
         }
 
@@ -69,7 +69,7 @@ namespace UserInfo.Service.UnitTests
 
             // Assert
             Assert.True(result.IsSuccess);
-            Assert.Empty(result.Result);
+            Assert.Empty(result.Result!);
         }
 
         [Fact(DisplayName = "Get invalid status code from user endpoint, the GetUserInfoAsync method should return error")]

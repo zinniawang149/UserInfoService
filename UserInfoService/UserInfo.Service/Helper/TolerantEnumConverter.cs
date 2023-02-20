@@ -7,20 +7,20 @@ namespace UserInfo.Service.Helper
 
         public override bool CanConvert(Type objectType)
         {
-            Type type = IsNullableType(objectType) ? Nullable.GetUnderlyingType(objectType) : objectType;
+            Type type = IsNullableType(objectType) ? Nullable.GetUnderlyingType(objectType)! : objectType;
             return type.IsEnum;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             bool isNullable = IsNullableType(objectType);
-            Type enumType = isNullable ? Nullable.GetUnderlyingType(objectType) : objectType;
+            Type enumType = isNullable ? Nullable.GetUnderlyingType(objectType)! : objectType;
 
             string[] names = Enum.GetNames(enumType);
 
             if (reader.TokenType == JsonToken.String)
             {
-                string enumText = reader.Value.ToString();
+                string enumText = reader.Value!.ToString();
 
                 if (!string.IsNullOrEmpty(enumText))
                 {
@@ -61,7 +61,7 @@ namespace UserInfo.Service.Helper
             return null;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
         }
